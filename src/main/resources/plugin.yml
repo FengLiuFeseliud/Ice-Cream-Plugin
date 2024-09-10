@@ -1,0 +1,13 @@
+name: IceCream
+version: '${version}'
+main: fengliu.feseliud.icecream.IceCream
+api-version: '1.20'
+
+commands:
+  iceCream:
+    usage: /iceCream (reload)
+
+permissions:
+  iceCream.reload:
+    description: reload IceCream config.
+    default: op
