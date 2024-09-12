@@ -34,7 +34,7 @@ public interface ICommand {
     /**
      * 初始化指定数据指令
      */
-    void initCommand(CommandSender sender, Command command, String[] args);
+    void initCommand(CommandSender sender, Command command, String label, String[] args);
 
     /**
      * 判断节点是否相同

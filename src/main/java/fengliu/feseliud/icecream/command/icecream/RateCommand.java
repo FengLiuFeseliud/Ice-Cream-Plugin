@@ -1,4 +1,4 @@
-package fengliu.feseliud.icecream.command.icecream.reserves;
+package fengliu.feseliud.icecream.command.icecream;
 
 import fengliu.feseliud.icecream.command.BaseCommand;
 

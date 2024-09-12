@@ -1,30 +1,27 @@
 package fengliu.feseliud.icecream.command;
 
-import fengliu.feseliud.icecream.command.icecream.ReloadCommand;
-import fengliu.feseliud.icecream.command.icecream.reserves.ItemCommand;
-import fengliu.feseliud.icecream.command.icecream.reserves.RateCommand;
-import fengliu.feseliud.icecream.command.icecream.reserves.SubmitCommand;
-import fengliu.feseliud.icecream.command.icecream.reserves.TakeCommand;
+import fengliu.feseliud.icecream.command.icecream.ItemCommand;
+import fengliu.feseliud.icecream.command.icecream.RateCommand;
+import fengliu.feseliud.icecream.command.icecream.SubmitCommand;
+import fengliu.feseliud.icecream.command.icecream.TakeCommand;
 
 /**
  * 根指令 icecream
  */
-public class IceCreamRootCommands implements IRootCommands {
+public class IceCreamRootCommands extends BaseRootCommands {
     public static final String COMMAND_NAME = "icecream";
-
+    public static final SubmitCommand SUBMIT = new SubmitCommand("submit");
+    public static final TakeCommand TAKE = new TakeCommand("take");
+    public static final RateCommand RATE = new RateCommand("rate");
+    public static final ItemCommand ITEM = new ItemCommand("item");
     public static final ReloadCommand RELOAD = new ReloadCommand("reload");
-    public static final SubmitCommand RESERVES_SUBMIT = new SubmitCommand("reserves.submit");
-    public static final TakeCommand RESERVES_TAKE = new TakeCommand("reserves.take");
-    public static final RateCommand RESERVES_RATE = new RateCommand("reserves.rate");
-    public static final ItemCommand RESERVES_ITEM = new ItemCommand("reserves.item");
 
-    @Override
-    public String getRootCommandsName() {
-        return IceCreamRootCommands.COMMAND_NAME;
+    public IceCreamRootCommands() {
+        super(COMMAND_NAME);
     }
 
     @Override
-    public boolean runRootCommand() {
+    public boolean onRnu() {
         return false;
     }
 }

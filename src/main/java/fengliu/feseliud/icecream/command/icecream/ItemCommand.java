@@ -1,4 +1,4 @@
-package fengliu.feseliud.icecream.command.icecream.reserves;
+package fengliu.feseliud.icecream.command.icecream;
 
 import fengliu.feseliud.icecream.command.PlayerCommand;
 import fengliu.feseliud.icecream.config.PluginConfigs;
@@ -12,13 +12,13 @@ import org.bukkit.inventory.ItemStack;
  * 将手上的物品设置为准备金物品
  */
 public class ItemCommand extends PlayerCommand {
-    public ItemCommand(String CommandLabel) {
-        super(CommandLabel);
+    public ItemCommand(String name) {
+        super(name);
     }
 
     @Override
     public boolean canRun() {
-        return super.canRun() || !((Player) this.sender).getInventory().getItemInMainHand().getType().isAir();
+        return super.canRun() && !((Player) this.sender).getInventory().getItemInMainHand().getType().isAir();
     }
 
     @Override

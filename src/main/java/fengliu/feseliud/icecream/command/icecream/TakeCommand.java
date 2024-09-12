@@ -1,9 +1,9 @@
-package fengliu.feseliud.icecream.command.icecream.reserves;
+package fengliu.feseliud.icecream.command.icecream;
 
 import fengliu.feseliud.icecream.command.PlayerCommand;
 
-public class SubmitCommand extends PlayerCommand {
-    public SubmitCommand(String CommandLabel) {
+public class TakeCommand extends PlayerCommand {
+    public TakeCommand(String CommandLabel) {
         super(CommandLabel);
     }
 

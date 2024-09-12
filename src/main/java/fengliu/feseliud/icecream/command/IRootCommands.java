@@ -23,24 +23,12 @@ import java.util.Objects;
  * 可以被自动判断使用哪一个子指令<br/>
  * 可以被自动添加 tab 补全<br/>
  */
-public interface IRootCommands extends TabExecutor {
-    /**
-     * 获取根指令的指令名
-     * @return 指令名
-     */
-    String getRootCommandsName();
-
-    /**
-     * 执行根指令
-     * @return 执行成功 true
-     */
-    boolean runRootCommand();
-
+public interface IRootCommands extends ICommand, TabExecutor {
     /**
      * 注册根指令, 在 {@link JavaPlugin#onEnable()} 调用它注册
      */
     default void register(){
-        PluginCommand cmd = Objects.requireNonNull(Bukkit.getPluginCommand(this.getRootCommandsName()));
+        PluginCommand cmd = Objects.requireNonNull(Bukkit.getPluginCommand(this.getCommandNane()));
         cmd.setExecutor(this);
         cmd.setTabCompleter(this);
     }
@@ -51,11 +39,15 @@ public interface IRootCommands extends TabExecutor {
     @Override
     default boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0){
-            return this.runRootCommand();
+            this.initCommand(sender, command, label, args);
+            if (!this.canRun()){
+                return false;
+            }
+            return this.onRnu();
         }
 
         for (ICommand iCommand : ReflectionUtil.getObjects(ICommand.class, this.getClass())) {
-            iCommand.initCommand(sender, command, args);
+            iCommand.initCommand(sender, command, label, args);
             if (!iCommand.canRun()){
                 continue;
             }

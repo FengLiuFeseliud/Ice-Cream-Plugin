@@ -3,10 +3,7 @@ package fengliu.feseliud.icecream.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-/**
- * 基础指令
- */
-public abstract class BaseCommand implements ICommand{
+public abstract class BaseRootCommands implements IRootCommands{
     public final String name;
     protected CommandSender sender;
     protected Command command;
@@ -14,9 +11,8 @@ public abstract class BaseCommand implements ICommand{
 
     /**
      * 仅注册用，创建将使用 {@link ICommand#initCommand(CommandSender, Command, String, String[])}
-     * @param name 子节点指令名 更多子节点使用 "." 分割
      */
-    public BaseCommand(String name){
+    public BaseRootCommands(String name){
         this.name = name;
     }
 

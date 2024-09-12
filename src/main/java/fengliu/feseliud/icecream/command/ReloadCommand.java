@@ -1,6 +1,5 @@
-package fengliu.feseliud.icecream.command.icecream;
+package fengliu.feseliud.icecream.command;
 
-import fengliu.feseliud.icecream.command.BaseCommand;
 import fengliu.feseliud.icecream.config.PluginConfigs;
 import fengliu.feseliud.icecream.message.Message;
 import fengliu.feseliud.icecream.message.MessageKey;
