@@ -1,0 +1,6 @@
+pluginLanguage: zh_cn
+
+# 准备金初始值 (1000 准备金物品)
+initialValueReserve: 1000
+# 准备金初始率
+initialReserveRatio: 0.01

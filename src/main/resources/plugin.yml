@@ -1,6 +1,6 @@
-name: IceCream
+name: IceCreamPlugin
 version: '${version}'
-main: fengliu.feseliud.icecream.IceCream
+main: fengliu.feseliud.icecream.IceCreamPlugin
 api-version: '1.20'
 
 commands:

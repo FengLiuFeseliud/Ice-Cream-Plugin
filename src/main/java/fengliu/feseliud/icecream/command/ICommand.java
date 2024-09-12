@@ -1,15 +1,12 @@
 package fengliu.feseliud.icecream.command;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import javax.annotation.Nullable;
 
 /**
  * 指令对像
  */
-public interface ICommand extends CommandExecutor {
+public interface ICommand {
     /**
      * 获取指令名
      * @return 指令名
@@ -56,15 +53,5 @@ public interface ICommand extends CommandExecutor {
             return false;
         }
         return true;
-    }
-
-
-    @Override
-    default boolean onCommand(@Nullable CommandSender sender, @Nullable Command command, @Nullable String label, @Nullable String[] args){
-        this.initCommand(sender, command, args);
-        if (!this.canRun()){
-            return false;
-        }
-        return onRnu();
     }
 }
