@@ -4,7 +4,9 @@ import fengliu.feseliud.icecream.config.MessageConfig;
 import fengliu.feseliud.icecream.config.PluginConfigs;
 
 public enum ReserveInfoMessageKey implements IMessageKey{
-    COMMAND_SET_RESERVE_ITEMS("command.set.reserve.items", "%item_name%", "%item_id%");
+    COMMAND_SET_RESERVE_ITEMS("command.set.reserve.items", "%item_name%", "%item_id%"),
+    COMMAND_SET_RESERVE_RATE("command.set.reserve.rate", "%rate%"),
+    COMMAND_RESERVE_RATE("command.reserve.rate", "%rate%");
 
     private final String key;
     private final String[] tags;

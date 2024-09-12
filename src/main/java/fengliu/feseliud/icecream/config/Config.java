@@ -50,20 +50,23 @@ public class Config implements IConfig {
     @Override
     public void save() {
         try {
-            this.configuration.save(this.getConfigPath());
+            this.configuration.save(new File(this.getFolderFile(), this.getName()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Override
-    public void reload() {
+    private File getFolderFile(){
         File folderFile = new File(IceCreamPlugin.instance.getDataFolder(), this.getFolderPath());
         if (!folderFile.exists()){
             folderFile.mkdirs();
         }
+        return folderFile;
+    }
 
-        File configFile = new File(folderFile, this.getName());
+    @Override
+    public void reload() {
+        File configFile = new File(this.getFolderFile(), this.getName());
         if (!configFile.exists()){
             this.create(configFile);
         }

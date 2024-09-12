@@ -1,2 +1,6 @@
 # 准备金物品
 reserveItems: "AIR"
+# 准备金率
+reserveRate: 0.01
+# 准备金初始值 (1000 准备金物品)
+initialValueReserve: 1000

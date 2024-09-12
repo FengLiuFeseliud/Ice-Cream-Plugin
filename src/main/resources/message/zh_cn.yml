@@ -1,6 +1,8 @@
 config.loader: "加载 %config_name% 配置文件完成..."
 message.configs.loader: "加载 %message_config_name% 语言配置文件完成..."
 message.replacements.not.enough: "%message_key% 需要的格式化字符不够... %message_key% 需要: %message_tags% "
+create.table: "创建 %table_name% 表..."
+create.table.execution: "创建 %table_name% 表失败!!!"
 command.reload: "重载配置成功啦~ 嘿嘿嘿"
 command.execution.error: "呜 qwq... 指令执行失败了... 查看服务器姬的错误日志吧"
 command.execution.console.error: "呜 qwq... 指令 %command% 执行失败了... 这是我的错误日志: %error_msg%"
