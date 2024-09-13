@@ -1,3 +1,6 @@
 command.set.reserve.items: "成功设置 %item_name% (ID:  %item_id%) 为准备金物品啦!"
 command.set.reserve.rate: "成功将准备金率设置为 %rate% 啦!"
 command.reserve.rate: "当前准备金率为 %rate% 哦~"
+command.not.reserve.items: "还... 还没... 设置准备金物品啦! 这可怎么让我操作啊!!!"
+command.submit: "成功向银行存入 %sub_count% 准备金物品, 获得 %money% ~"
+command.take: "成功向银行取出 %take_count% 准备金物品, 花费 %money% ~"

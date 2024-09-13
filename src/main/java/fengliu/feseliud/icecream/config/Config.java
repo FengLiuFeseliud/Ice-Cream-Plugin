@@ -1,6 +1,8 @@
 package fengliu.feseliud.icecream.config;
 
 import fengliu.feseliud.icecream.IceCreamPlugin;
+import fengliu.feseliud.icecream.config.item.IConfigItem;
+import fengliu.feseliud.icecream.util.ReflectionUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -49,19 +51,21 @@ public class Config implements IConfig {
 
     @Override
     public void save() {
+        File configFile = new File(this.getFolderFile(), this.getName());
         try {
-            this.configuration.save(new File(this.getFolderFile(), this.getName()));
+            YamlConfiguration yamlConfiguration = new YamlConfiguration();
+            ReflectionUtil.getObjects(IConfigItem.class, this.getClass()).forEach(configItem -> {
+                yamlConfiguration.set(configItem.getKey(), configItem.get());
+            });
+            yamlConfiguration.save(configFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private File getFolderFile(){
-        File folderFile = new File(IceCreamPlugin.instance.getDataFolder(), this.getFolderPath());
-        if (!folderFile.exists()){
-            folderFile.mkdirs();
-        }
-        return folderFile;
+    @Override
+    public void create(File configFile) {
+        this.save();
     }
 
     @Override
@@ -71,5 +75,20 @@ public class Config implements IConfig {
             this.create(configFile);
         }
         this.configuration = YamlConfiguration.loadConfiguration(configFile);
+        ReflectionUtil.getObjects(IConfigItem.class, this.getClass()).forEach(configItem -> {
+            Object data = configuration.get(configItem.getKey());
+            if (data == null){
+                return;
+            }
+            configItem.set(data);
+        });
+    }
+
+    private File getFolderFile(){
+        File folderFile = new File(IceCreamPlugin.instance.getDataFolder(), this.getFolderPath());
+        if (!folderFile.exists()){
+            folderFile.mkdirs();
+        }
+        return folderFile;
     }
 }

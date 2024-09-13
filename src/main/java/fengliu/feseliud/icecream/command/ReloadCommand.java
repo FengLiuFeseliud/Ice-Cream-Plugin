@@ -1,8 +1,7 @@
 package fengliu.feseliud.icecream.command;
 
 import fengliu.feseliud.icecream.config.PluginConfigs;
-import fengliu.feseliud.icecream.message.Message;
-import fengliu.feseliud.icecream.message.MessageKey;
+import fengliu.feseliud.icecream.config.message.Message;
 
 public class ReloadCommand extends BaseCommand {
     public ReloadCommand(String name) {
@@ -12,7 +11,7 @@ public class ReloadCommand extends BaseCommand {
     @Override
     public boolean onRnu() {
         PluginConfigs.reloads();
-        Message.send(this.sender, MessageKey.COMMAND_RELOAD);
+        Message.COMMAND_RELOAD.send(this.sender);
         return true;
     }
 }

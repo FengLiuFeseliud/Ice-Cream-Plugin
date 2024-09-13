@@ -1,12 +1,10 @@
 package fengliu.feseliud.icecream.config;
 
-import fengliu.feseliud.icecream.IceCreamPlugin;
+import fengliu.feseliud.icecream.config.item.ConfigItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 
 /**
  * 通用配置文件接口
@@ -48,13 +46,21 @@ public interface IConfig {
      */
     void reload();
 
+    default <T> T get(@NotNull String path, T defaultValue, Class<T> type) {
+        Object value = this.get(path);
+        if (value == null || defaultValue.getClass().isAssignableFrom(type)){
+            return defaultValue;
+        }
+        return type.cast(value);
+    }
+
     /**
      * 设置配置值并保存
-     * @param path 配置键
+     * @param configItem 配置键
      * @param value 配置值
      */
-    default void setAndSave(@NotNull String path, @Nullable Object value){
-        this.set(path, value);
+    default <T> void setAndSave(@NotNull ConfigItem<T> configItem, @Nullable T value){
+        configItem.set(value);
         this.save();
     }
 
@@ -83,17 +89,5 @@ public interface IConfig {
      * 创建配置文件
      * @param configFile 配置文件对像
      */
-    default void create(File configFile){
-        // 从资源文件夹导出默认配置文件
-        InputStream stream = IceCreamPlugin.instance.getResource(this.getConfigPath());
-        try {
-            FileOutputStream outputStream = new FileOutputStream(configFile);
-
-            assert stream != null;
-            outputStream.write(stream.readAllBytes());
-            outputStream.close();
-        } catch (Exception exception) {
-            throw new RuntimeException(exception);
-        }
-    }
+    void create(File configFile);
 }

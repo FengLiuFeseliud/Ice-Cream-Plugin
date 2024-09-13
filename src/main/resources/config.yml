@@ -1,2 +1,3 @@
 # 显示语言
 pluginLanguage: zh_cn
+sqliteDBFile: "icecream.db"

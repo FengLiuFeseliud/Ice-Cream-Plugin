@@ -3,10 +3,10 @@ package fengliu.feseliud.icecream.config;
 /**
  * 消息语言配置文件
  */
-public class MessageConfig extends Config implements IConfig{
+public class MessageConfig extends Config{
     public static final String MESSAGE_PATH = "message";
     public static final String DEFAULT_LANGUAGE = "zh_cn";
-    private String language;
+    private String language = DEFAULT_LANGUAGE;
 
     public MessageConfig(){
         super(MESSAGE_PATH, null);

@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'dev.s7a.gradle.minecraft.server' version '3.1.0'
+    id 'com.gradleup.shadow' version '8.3.1'
 }
 
 group = 'fengliu.feseliud'
@@ -7,6 +9,11 @@ version = '0.1'
 
 repositories {
     mavenCentral()
+
+    maven {
+        url 'https://jitpack.io'
+    }
+
     maven {
         name = "spigotmc-repo"
         url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
@@ -17,16 +24,30 @@ repositories {
     }
 
     maven {
-        url 'https://jitpack.io'
+        name = 'citizens-repo'
+        url = 'https://maven.citizensnpcs.co/repo'
     }
 }
 
 dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
-//    implementation "net.kyori:adventure-api:${adventureApiVersion}"
+    implementation "net.kyori:adventure-api:${adventureApiVersion}"
 
     compileOnly "org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT"
-//    compileOnly "com.github.YiC200333:XConomyAPI:${XConomyAPIVersion}"
+    compileOnly "com.github.YiC200333:XConomyAPI:${XConomyAPIVersion}"
+
+    compileOnly("net.citizensnpcs:citizens-main:${citizensNpcsVersion}-SNAPSHOT") {
+        exclude group: '*', module: '*'
+    }
+
+    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.41.2.2'
+    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.1.0'
+}
+
+shadowJar {
+    relocate('com.zaxxer.HikariCP', 'my.package.path.dependencies.bstats')
 }
 
 def targetJavaVersion = 17
@@ -52,6 +73,10 @@ processResources {
     inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {
+        expand props
+    }
+
+    from("LICENSE") {
         expand props
     }
 }

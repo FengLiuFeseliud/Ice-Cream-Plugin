@@ -1,7 +1,6 @@
 package fengliu.feseliud.icecream.command;
 
-import fengliu.feseliud.icecream.message.Message;
-import fengliu.feseliud.icecream.message.MessageKey;
+import fengliu.feseliud.icecream.config.message.Message;
 import fengliu.feseliud.icecream.util.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -55,8 +54,8 @@ public interface IRootCommands extends ICommand, TabExecutor {
             try {
                 return iCommand.onRnu();
             } catch (Exception exception){
-                Message.send(sender, MessageKey.COMMAND_EXECUTION_ERROR);
-                Message.warning(MessageKey.COMMAND_EXECUTION_CONSOLE_ERROR, label + "." + iCommand.getCommandNane(), exception.getMessage());
+                Message.COMMAND_EXECUTION_ERROR.send(sender);
+                Message.COMMAND_EXECUTION_CONSOLE_ERROR.warning(label + "." + iCommand.getCommandNane(), exception.getMessage());
                 exception.printStackTrace();
             }
         }

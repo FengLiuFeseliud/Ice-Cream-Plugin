@@ -5,6 +5,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+
 /**
  * 插件配置文件
  */
@@ -42,5 +44,10 @@ public class PluginConfig implements IConfig{
         IceCreamPlugin.instance.saveDefaultConfig();
         IceCreamPlugin.instance.reloadConfig();
         fileConfig = IceCreamPlugin.instance.getConfig();
+    }
+
+    @Override
+    public void create(File configFile) {
+
     }
 }
