@@ -57,8 +57,8 @@ public class ReservesSqlConnection extends BaseSqlConnection{
 
     public void subReservesItem(int itemCount, Player player){
         this.execute(statement -> {
-            int reservesItemCount = 0;
-            double serverMoney = 0;
+            int reservesItemCount;
+            double serverMoney;
 
             ResultSet result = this.getReserves(statement);
             if (result.getInt(1) == 0) {
@@ -76,8 +76,8 @@ public class ReservesSqlConnection extends BaseSqlConnection{
         });
     }
 
-    public int takeReservesItem(int itemCount, double money, Player player){
-        return this.execute(statement -> {
+    public void takeReservesItem(int itemCount, double money, Player player){
+        this.execute(statement -> {
             long reservesItemCount;
             double serverMoney;
 
@@ -93,6 +93,23 @@ public class ReservesSqlConnection extends BaseSqlConnection{
             reservesItemCount -= itemCount;
             serverMoney += money;
             return this.insertReserves(statement, reservesItemCount, serverMoney, player);
+        });
+    }
+
+    public boolean payServerMoney(double money, Player player){
+        return this.execute(statement -> {
+            ResultSet result = this.getReserves(statement);
+            if (result.getInt(1) == 0){
+                return false;
+            }
+
+            double serverMoney = result.getDouble(5);
+            if (money > serverMoney){
+                return false;
+            }
+
+            this.insertReserves(statement, result.getInt(4), serverMoney - money, player);
+            return true;
         });
     }
 }

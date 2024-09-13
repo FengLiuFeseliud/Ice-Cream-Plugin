@@ -58,6 +58,7 @@ public class Config implements IConfig {
                 yamlConfiguration.set(configItem.getKey(), configItem.get());
             });
             yamlConfiguration.save(configFile);
+            this.configuration = yamlConfiguration;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
