@@ -27,7 +27,7 @@ public abstract class BaseRootCommands implements IRootCommands{
     }
 
     @Override
-    public boolean canRun() {
+    public boolean canRun(IRootCommands rootCommands) {
         return this.nameEquals();
     }
 

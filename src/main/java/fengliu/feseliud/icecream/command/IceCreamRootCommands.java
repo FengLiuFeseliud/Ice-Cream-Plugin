@@ -13,13 +13,24 @@ public class IceCreamRootCommands extends BaseRootCommands {
     public static final ItemCommand ITEM = new ItemCommand("item");
     public static final PayCommand PAY = new PayCommand("pay");
     public static final ReloadCommand RELOAD = new ReloadCommand("reload");
+    public static final MenuCommand MENU = new MenuCommand("menu");
+    public static final NpcCommand NPC = new NpcCommand("npc");
 
     public IceCreamRootCommands() {
         super(COMMAND_NAME);
     }
 
+    public static String getCommandName(ICommand command){
+        return "/" + COMMAND_NAME + " " + command.getCommandNane();
+    }
+
     @Override
     public boolean onRnu() {
         return false;
+    }
+
+    @Override
+    public boolean canTab(IRootCommands rootCommands) {
+        return true;
     }
 }

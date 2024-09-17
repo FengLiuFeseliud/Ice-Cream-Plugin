@@ -3,11 +3,36 @@ version: '${version}'
 main: fengliu.feseliud.icecream.IceCreamPlugin
 api-version: '1.20'
 
+softdepend: [Citizens]
+
 commands:
   iceCream:
-    usage: /iceCream (reload)
+    usage: /iceCream (submit|take|rate|item|pay|menu|npc|reload)
 
 permissions:
-  iceCream.reload:
-    description: reload IceCream config.
+  iceCream.*:
+    children:
+      iceCream.rate: true
+      iceCream.item: true
+      iceCream.pay: true
+      iceCream.reload: true
+      iceCream.menu: true
+      iceCream.npc: true
+      iceCream.submit: true
+      iceCream.take: true
+  iceCream.rate:
     default: op
+  iceCream.item:
+    default: op
+  iceCream.pay:
+    default: op
+  iceCream.reload:
+    default: op
+  iceCream.menu:
+    default: op
+  iceCream.npc:
+    default: op
+  iceCream.submit:
+
+  iceCream.take:
+

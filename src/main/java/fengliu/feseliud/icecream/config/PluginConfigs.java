@@ -1,6 +1,7 @@
 package fengliu.feseliud.icecream.config;
 
 import fengliu.feseliud.icecream.IceCreamPlugin;
+import fengliu.feseliud.icecream.config.message.IconMessage;
 import fengliu.feseliud.icecream.config.message.Message;
 import fengliu.feseliud.icecream.config.message.ReserveMessage;
 import fengliu.feseliud.icecream.util.ReflectionUtil;
@@ -12,6 +13,8 @@ public class PluginConfigs {
     public static final Message INFO = new Message();
     public static final ReserveMessage RESERVES_INFO = new ReserveMessage("reserves");
     public static final ReservesConfig RESERVES = new ReservesConfig("reserves");
+    public static final IconMessage ICON = new IconMessage("icon");
+
 
     /**
      * 重载所有配置文件

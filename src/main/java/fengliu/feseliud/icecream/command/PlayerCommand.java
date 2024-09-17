@@ -11,7 +11,7 @@ public abstract class PlayerCommand extends BaseCommand{
     }
 
     @Override
-    public boolean canRun() {
-        return super.canRun() && this.sender instanceof Player;
+    public boolean canRun(IRootCommands rootCommands) {
+        return super.canRun(rootCommands) && this.sender instanceof Player;
     }
 }

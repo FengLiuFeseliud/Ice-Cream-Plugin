@@ -43,24 +43,33 @@ public class MessageConfigItem implements IConfigItem<String> {
         return this.tags;
     }
 
+
+    /**
+     * 获取消息
+     * @return 消息字符串
+     */
+    public String getMessage(String... replacements){
+        String message = this.data;
+
+        String[] tags = this.getTags();
+        if(tags.length != replacements.length){
+            Message.MESSAGE_REPLACEMENTS_NOT_ENOUGH.warning(this.getKey(), Arrays.toString(tags));
+            return message;
+        }
+
+        for (int index = 0; index < tags.length; ++index) {
+            message = message.replace(tags[index], replacements[index]);
+        }
+        return message;
+    }
+
     /**
      * 获取消息列表 (分割为多行)
      * @param replacements 格式化字符值列表 (顺序跟格式化字符列表对应)
      * @return 消息字符串列表
      */
     public List<String> getMessages(String... replacements){
-        String message = this.data;
-
-        String[] tags = this.getTags();
-        if(tags.length != replacements.length){
-            Message.MESSAGE_REPLACEMENTS_NOT_ENOUGH.warning(this.getKey(), Arrays.toString(tags));
-            return Arrays.stream(message.split("\n")).toList();
-        }
-
-        for (int index = 0; index < tags.length; ++index) {
-            message = message.replace(tags[index], replacements[index]);
-        }
-        return Arrays.stream(message.split("\n")).toList();
+        return List.of(this.getMessage(replacements).split("\n"));
     }
 
     /**

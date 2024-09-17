@@ -31,7 +31,6 @@ public class SubmitCommand extends PlayerCommand {
             if (stack == null){
                 continue;
             }
-
             if (!stack.getType().equals(item)){
                 continue;
             }
@@ -50,7 +49,7 @@ public class SubmitCommand extends PlayerCommand {
         ReserveMessage.COMMAND_SUBMIT.send(this.sender, String.valueOf(count.get()), this.changeBalance(count.get(), player));
     }
 
-    private void subInventoryReserveItemsStack(Material item, PlayerInventory inventory, Player player, int subCount){
+    public void subInventoryReserveItemsStack(Material item, PlayerInventory inventory, Player player, int subCount){
         AtomicInteger count = new AtomicInteger();
         this.forInventoryReserveItemsStack(item, inventory, itemStack -> count.addAndGet(itemStack.getAmount()));
         String balanceStr = this.changeBalance(Math.min(count.get(), subCount), player);

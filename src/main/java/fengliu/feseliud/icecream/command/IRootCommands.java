@@ -39,7 +39,7 @@ public interface IRootCommands extends ICommand, TabExecutor {
     default boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0){
             this.initCommand(sender, command, label, args);
-            if (!this.canRun()){
+            if (!this.canRun(this)){
                 return false;
             }
             return this.onRnu();
@@ -47,7 +47,7 @@ public interface IRootCommands extends ICommand, TabExecutor {
 
         for (ICommand iCommand : ReflectionUtil.getObjects(ICommand.class, this.getClass())) {
             iCommand.initCommand(sender, command, label, args);
-            if (!iCommand.canRun()){
+            if (!iCommand.canRun(this)){
                 continue;
             }
 
@@ -70,6 +70,10 @@ public interface IRootCommands extends ICommand, TabExecutor {
     default List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> nodes = new ArrayList<>();
         ReflectionUtil.getObjects(ICommand.class, this.getClass()).forEach(iCommand -> {
+            if (!iCommand.canTab(this)){
+                return;
+            }
+
             String[] names = iCommand.getCommandNane().split("\\.");
             if (names.length < args.length){
                 return;

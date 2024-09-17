@@ -2,6 +2,7 @@ package fengliu.feseliud.icecream.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * 基础指令
@@ -31,8 +32,20 @@ public abstract class BaseCommand implements ICommand{
     }
 
     @Override
-    public boolean canRun() {
-        return this.nameEquals();
+    public boolean canRun(IRootCommands rootCommands) {
+        if (!(this.sender instanceof Player player)){
+            return this.nameEquals();
+        }
+
+        return this.nameEquals() && player.hasPermission(rootCommands.getCommandNane() + "." + this.getCommandNane());
+    }
+
+    @Override
+    public boolean canTab(IRootCommands rootCommands) {
+        if (sender instanceof Player player){
+            return player.hasPermission(rootCommands.getCommandNane() + "." + this.getCommandNane());
+        }
+        return true;
     }
 
     @Override

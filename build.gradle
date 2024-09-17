@@ -27,6 +27,11 @@ repositories {
         name = 'citizens-repo'
         url = 'https://maven.citizensnpcs.co/repo'
     }
+
+    maven {
+        name = 'codemc-repo'
+        url = 'https://repo.codemc.io/repository/maven-public/'
+    }
 }
 
 dependencies {
@@ -35,6 +40,7 @@ dependencies {
 
     compileOnly "org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT"
     compileOnly "com.github.YiC200333:XConomyAPI:${XConomyAPIVersion}"
+    compileOnly "me.filoghost.chestcommands:chestcommands-api:4.0.4"
 
     compileOnly("net.citizensnpcs:citizens-main:${citizensNpcsVersion}-SNAPSHOT") {
         exclude group: '*', module: '*'

@@ -23,13 +23,15 @@ public interface ICommand {
      * 是否可以执行指令
      * @return true 可以
      */
-    boolean canRun();
+    boolean canRun(IRootCommands rootCommands);
 
     /**
      * 执行指令
      * @return true 执行成功
      */
     boolean onRnu();
+
+    boolean canTab(IRootCommands rootCommands);
 
     /**
      * 初始化指定数据指令
