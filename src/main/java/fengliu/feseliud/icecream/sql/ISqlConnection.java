@@ -38,9 +38,11 @@ public interface ISqlConnection {
      */
     default <T> T execute(SqlFunction<T> sql) {
         try {
-            Statement statement = this.getConnection().createStatement();
+            Connection connection = this.getConnection();
+            Statement statement = connection.createStatement();
             T data = sql.execute(statement);
             statement.close();
+            connection.close();
             return data;
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -45,6 +45,11 @@ public class SubmitCommand extends PlayerCommand {
             inventory.remove(itemStack);
         });
 
+        if (count.get() == 0){
+            ReserveMessage.COMMAND_NOT_SUBMIT.send(sender);
+            return;
+        }
+
         ReservesSqlConnection.instance.subReservesItem(count.get(), player);
         ReserveMessage.COMMAND_SUBMIT.send(this.sender, String.valueOf(count.get()), this.changeBalance(count.get(), player));
     }
@@ -71,6 +76,11 @@ public class SubmitCommand extends PlayerCommand {
             itemStack.setAmount(newAmount);
             count.set(0);
         });
+
+        if (count.get() == 0){
+            ReserveMessage.COMMAND_NOT_SUBMIT.send(sender);
+            return;
+        }
 
         ReservesSqlConnection.instance.subReservesItem(subCount - count.get(), player);
         ReserveMessage.COMMAND_SUBMIT.send(this.sender, String.valueOf(subCount - count.get()), balanceStr);

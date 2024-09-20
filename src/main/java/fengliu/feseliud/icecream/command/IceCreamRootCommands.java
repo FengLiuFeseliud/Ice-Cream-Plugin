@@ -1,6 +1,10 @@
 package fengliu.feseliud.icecream.command;
 
+import fengliu.feseliud.icecream.IceCreamPlugin;
 import fengliu.feseliud.icecream.command.icecream.*;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
 
 /**
  * 根指令 icecream
@@ -21,7 +25,20 @@ public class IceCreamRootCommands extends BaseRootCommands {
     }
 
     public static String getCommandName(ICommand command){
-        return "/" + COMMAND_NAME + " " + command.getCommandNane();
+        return COMMAND_NAME + " " + command.getCommandNane();
+    }
+
+    public static void runTemporaryPrivileges(Player player, ICommand command, String args){
+        String permission = COMMAND_NAME + "." + command.getCommandNane();
+        if (player.hasPermission(permission)){
+            Bukkit.dispatchCommand(player, IceCreamRootCommands.getCommandName(command) + " " + args);
+            return;
+        }
+
+        PermissionAttachment attachment = player.addAttachment(IceCreamPlugin.instance);
+        attachment.setPermission(permission, true);
+        Bukkit.dispatchCommand(player, IceCreamRootCommands.getCommandName(command) + " " + args);
+        attachment.setPermission(permission, false);
     }
 
     @Override

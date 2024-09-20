@@ -1,6 +1,7 @@
 package fengliu.feseliud.icecream.sql;
 
 import fengliu.feseliud.icecream.config.ReservesConfig;
+import fengliu.feseliud.icecream.config.message.ReserveMessage;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
@@ -40,7 +41,7 @@ public class ReservesSqlConnection extends BaseSqlConnection{
     }
 
     private double getServerMoney(Statement statement) throws SQLException {
-        return statement.executeQuery("SELECT max(ID), SERVER_MONEY FROM '%s'".formatted(this.getTableName())).getLong(1);
+        return statement.executeQuery("SELECT max(ID), SERVER_MONEY FROM '%s'".formatted(this.getTableName())).getLong(2);
     }
 
     public double getServerMoney(){
@@ -48,7 +49,7 @@ public class ReservesSqlConnection extends BaseSqlConnection{
     }
 
     private long getReservesItemCount(Statement statement) throws SQLException {
-        return statement.executeQuery("SELECT max(ID), RESERVE_ITEM_COUNT FROM '%s'".formatted(this.getTableName())).getLong(1);
+        return statement.executeQuery("SELECT max(ID), RESERVE_ITEM_COUNT FROM '%s'".formatted(this.getTableName())).getLong(2);
     }
 
     public long getReservesItemCount(){
@@ -57,17 +58,9 @@ public class ReservesSqlConnection extends BaseSqlConnection{
 
     public void subReservesItem(int itemCount, Player player){
         this.execute(statement -> {
-            int reservesItemCount;
-            double serverMoney;
-
             ResultSet result = this.getReserves(statement);
-            if (result.getInt(1) == 0) {
-                reservesItemCount = ReservesConfig.INITIAL_ITEM_COUNT.get();
-                serverMoney = ReservesConfig.INITIAL_SERVER_MONEY.get();
-            } else {
-                reservesItemCount = result.getInt(4);
-                serverMoney = result.getDouble(5);
-            }
+            int reservesItemCount = result.getInt(4);
+            double serverMoney = result.getDouble(5);
 
             double addMoney = itemCount / ReservesConfig.RATE.get();
             reservesItemCount += itemCount;
@@ -78,21 +71,8 @@ public class ReservesSqlConnection extends BaseSqlConnection{
 
     public void takeReservesItem(int itemCount, double money, Player player){
         this.execute(statement -> {
-            long reservesItemCount;
-            double serverMoney;
-
             ResultSet result = this.getReserves(statement);
-            if (result.getInt(1) == 0) {
-                reservesItemCount = ReservesConfig.INITIAL_ITEM_COUNT.get();
-                serverMoney = ReservesConfig.INITIAL_SERVER_MONEY.get();
-            } else {
-                reservesItemCount = result.getInt(4);
-                serverMoney = result.getDouble(5);
-            }
-
-            reservesItemCount -= itemCount;
-            serverMoney += money;
-            return this.insertReserves(statement, reservesItemCount, serverMoney, player);
+            return this.insertReserves(statement, result.getInt(4) + itemCount, result.getDouble(5) + money, player);
         });
     }
 
@@ -111,5 +91,14 @@ public class ReservesSqlConnection extends BaseSqlConnection{
             this.insertReserves(statement, result.getInt(4), serverMoney - money, player);
             return true;
         });
+    }
+
+    @Override
+    public void createTable(Statement statement) throws SQLException {
+        super.createTable(statement);
+        ReserveMessage.INIT.info(String.valueOf(ReservesConfig.INITIAL_ITEM_COUNT.get()), String.valueOf(ReservesConfig.INITIAL_SERVER_MONEY.get()));
+        statement.executeUpdate("INSERT INTO '%s' (TRADE_TIME,RESERVE_ITEM_COUNT,SERVER_MONEY,TRADER_UUID) VALUES ('%s', %s, %s, '%s');"
+                .formatted(this.getTableName(), new Timestamp(System.currentTimeMillis()),
+                        ReservesConfig.INITIAL_ITEM_COUNT.get(), ReservesConfig.INITIAL_SERVER_MONEY.get(), null));
     }
 }

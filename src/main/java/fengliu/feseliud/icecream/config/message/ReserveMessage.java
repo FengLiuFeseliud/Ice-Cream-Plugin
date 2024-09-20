@@ -4,16 +4,20 @@ import fengliu.feseliud.icecream.config.MessageConfig;
 import fengliu.feseliud.icecream.config.item.MessageConfigItem;
 
 public class ReserveMessage extends MessageConfig {
+    public static final MessageConfigItem INIT = new MessageConfigItem("初始化准备金数据 准备金物品: %reserve_item_count% 服务器货币: %server_money%", "init", "%reserve_item_count%", "%server_money%");
     public static final MessageConfigItem COMMAND_SET_RESERVE_ITEMS = new MessageConfigItem("成功设置 %item_name% (ID:  %item_id%) 为准备金物品啦!", "commandSetReserveItems", "%item_name%", "%item_id%");
     public static final MessageConfigItem COMMAND_SET_RESERVE_RATE = new MessageConfigItem("成功将准备金率设置为 %rate% 啦!", "commandSetReserveRate", "%rate%");
     public static final MessageConfigItem COMMAND_NOT_RESERVE_ITEMS = new MessageConfigItem("还... 还没... 设置准备金物品啦! 这可怎么让我操作啊!!!", "commandNotReserveItems");
     public static final MessageConfigItem COMMAND_RESERVE_RATE = new MessageConfigItem("当前准备金率为 %rate% 哦~", "commandReserveRate", "%rate%");
     public static final MessageConfigItem COMMAND_SUBMIT = new MessageConfigItem("成功向银行存入 %sub_count% 准备金物品, 获得 %money% ~", "commandSubmit", "%sub_count%", "%money%");
+    public static final MessageConfigItem COMMAND_NOT_SUBMIT = new MessageConfigItem("背包里一点准备金物品也没有, 怎么上交啦...", "commandNotSubmit");
     public static final MessageConfigItem COMMAND_TAKE = new MessageConfigItem("成功向银行取出 %take_count% 准备金物品, 花费 %money% ~", "commandTake", "%take_count%", "%money%");
+    public static final MessageConfigItem COMMAND_NOT_TAKE = new MessageConfigItem("孩子银行那真的一点准备金物品也取不出来了啦... 呜 qwq...", "commandNotTake");
     public static final MessageConfigItem COMMAND_PAY = new MessageConfigItem("使用服务器货币向 %player_name% 支付 %money% ~", "commandPay", "%player_name%", "%money%");
     public static final MessageConfigItem COMMAND_PAY_NOT_MONEY = new MessageConfigItem("服务器货币不足, 没钱啦!!! 支付不了了 qwq", "commandPayNotMoney");
     public static final MessageConfigItem COMMAND_PAY_NOT_PLAYER = new MessageConfigItem("玩家 %player_name% 不存在啊!!! qwq", "commandPayNotPlayer", "%player_name%");
-    public static final MessageConfigItem RESERVE_MENU_RESERVE_INFO = new MessageConfigItem("当前准备金物品, 当前准备金率为 %rate%", "reserveMenuReserveInfo", "%rate%");
+    public static final MessageConfigItem RESERVE_MENU_RESERVE_ITEM_INFO = new MessageConfigItem("当前准备金物品如下, 当前准备金物品数量 %reserve_item_count%", "reserveMenuReserveItemInfo", "%reserve_item_count%");
+    public static final MessageConfigItem RESERVE_MENU_RESERVE_INFO = new MessageConfigItem("当前服务器货币量如下 %server_money%, 当前准备金率为 %rate%", "reserveMenuReserveInfo", "%server_money%", "%rate%");
     public static final MessageConfigItem RESERVE_MENU_TITLE = new MessageConfigItem("%bank_name% 业务菜单", "reserveMenuTitle", "%bank_name%");
     public static final MessageConfigItem RESERVE_MENU_SUBMIT_TITLE = new MessageConfigItem("%bank_name% 存入业务菜单", "reserveMenuSubmitTitle", "%bank_name%");
     public static final MessageConfigItem RESERVE_MENU_SUBMIT = new MessageConfigItem("存入准备金物品", "reserveMenuSubmit");

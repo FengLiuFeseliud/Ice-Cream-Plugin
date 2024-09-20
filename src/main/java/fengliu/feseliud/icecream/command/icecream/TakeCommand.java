@@ -19,6 +19,10 @@ public class TakeCommand extends PlayerCommand {
 
     private void takeAll(Material item, Double reserveRate, PlayerData playerData, Player player, XConomyAPI xapi){
         int itemCount = (int) Math.floor(playerData.getBalance().doubleValue() * reserveRate);
+        if (itemCount == 0){
+            ReserveMessage.COMMAND_NOT_TAKE.send(sender);
+            return;
+        }
 
         BigDecimal money = BigDecimal.valueOf(itemCount/ reserveRate);
         xapi.changePlayerBalance(playerData.getUniqueId(), player.getName(), money, false);

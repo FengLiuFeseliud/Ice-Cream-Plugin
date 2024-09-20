@@ -33,6 +33,7 @@ permissions:
   iceCream.npc:
     default: op
   iceCream.submit:
-
+    default: op
   iceCream.take:
+    default: op
 

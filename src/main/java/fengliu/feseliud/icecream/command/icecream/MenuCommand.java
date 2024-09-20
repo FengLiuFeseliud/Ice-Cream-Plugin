@@ -11,16 +11,17 @@ import fengliu.feseliud.icecream.config.message.ReserveMessage;
 import fengliu.feseliud.icecream.menu.icon.AddIcon;
 import fengliu.feseliud.icecream.menu.icon.CountIcon;
 import fengliu.feseliud.icecream.menu.icon.DelIcon;
+import fengliu.feseliud.icecream.sql.ReservesSqlConnection;
 import fengliu.feseliud.icecream.util.MenuIconUtil;
 import me.filoghost.chestcommands.api.Menu;
 import me.filoghost.chestcommands.api.StaticIcon;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MenuCommand extends BaseCommand {
@@ -46,11 +47,28 @@ public class MenuCommand extends BaseCommand {
     private void openAmountMenu(ItemStack fillStack, Player player, MessageConfigItem title, MessageConfigItem countInfo, Menu mainMenu){
         Menu amountMenu = Menu.create(IceCreamPlugin.instance, title.get(), 4);
         MenuIconUtil.fillRing(2, 7, fillStack, amountMenu);
+        
+        int maxCount = 500;
+        if (title == ReserveMessage.RESERVE_MENU_SUBMIT_TITLE){
+            maxCount = 0;
+            ItemStack reservesStack = ReservesConfig.ITEM.getItemStack(1);
+            for (ItemStack stack : player.getInventory().getContents()) {
+                if (stack == null){
+                    continue;
+                }
+
+                if (stack.getType().equals(reservesStack.getType())){
+                    maxCount += stack.getAmount();
+                }
+            }
+        } else if (title == ReserveMessage.RESERVE_MENU_TAKE_TITLE) {
+            maxCount = (int) ReservesSqlConnection.instance.getReservesItemCount();
+        }
 
         AtomicReference<Integer> itemCount = new AtomicReference<>(0);
         int[] addCounts = new int[]{1, 32, 64, 100, -1};
         for (int index = 0; index < addCounts.length; index ++){
-            amountMenu.setIcon(1, index + 1, new AddIcon<>(itemCount, addCounts[index], 500, Material.LIME_WOOL, Material.RED_WOOL));
+            amountMenu.setIcon(1, index + 1, new AddIcon<>(itemCount, addCounts[index], maxCount, Material.LIME_WOOL, Material.RED_WOOL));
         }
 
         for (int index = 0; index < addCounts.length; index ++){
@@ -59,16 +77,20 @@ public class MenuCommand extends BaseCommand {
 
         amountMenu.setIcon(2, 7, new CountIcon<>(itemCount, Material.YELLOW_WOOL, countInfo, (menuView1, countPlayer) -> {
             if (title == ReserveMessage.RESERVE_MENU_SUBMIT_TITLE){
-                Bukkit.dispatchCommand(player, IceCreamRootCommands.getCommandName(IceCreamRootCommands.SUBMIT) + " " + itemCount.get());
+                IceCreamRootCommands.runTemporaryPrivileges(player, IceCreamRootCommands.SUBMIT, String.valueOf(itemCount.get()));
             }else if (title == ReserveMessage.RESERVE_MENU_PAY_TITLE){
                 // server.dispatchCommand(player, IceCreamRootCommands.getCommandName(IceCreamRootCommands.PAY) + " " + countPlayer.getName() + " " + itemCount.get());
             }else if (title == ReserveMessage.RESERVE_MENU_TAKE_TITLE){
-                Bukkit.dispatchCommand(player, IceCreamRootCommands.getCommandName(IceCreamRootCommands.TAKE) + " " + itemCount.get());
+                IceCreamRootCommands.runTemporaryPrivileges(player, IceCreamRootCommands.TAKE, String.valueOf(itemCount.get()));
             }
         }));
 
+        amountMenu.setIcon(0, 8, StaticIcon.create(MenuCommand.getRenderIcon(ReserveMessage.RESERVE_MENU_RESERVE_ITEM_INFO.getMessage(
+                String.valueOf(ReservesSqlConnection.instance.getReservesItemCount())
+        ))));
+
         amountMenu.setIcon(3, 8, StaticIcon.create(MenuCommand.getRenderIcon(ReserveMessage.RESERVE_MENU_RESERVE_INFO.getMessage(
-                String.valueOf(ReservesConfig.RATE.get())
+                IceCreamPlugin.xcapi.getdisplay(BigDecimal.valueOf(ReservesSqlConnection.instance.getServerMoney())), String.valueOf(ReservesConfig.RATE.get())
         ))));
 
         ItemStack backMainMenuStack = new ItemStack(Material.OAK_DOOR);
@@ -103,8 +125,12 @@ public class MenuCommand extends BaseCommand {
 
         menu.setIcon(1, 0, StaticIcon.create(fillStack));
         menu.setIcon(1, 8, StaticIcon.create(fillStack));
+        menu.setIcon(0, 8, StaticIcon.create(MenuCommand.getRenderIcon(ReserveMessage.RESERVE_MENU_RESERVE_ITEM_INFO.getMessage(
+                String.valueOf(ReservesSqlConnection.instance.getReservesItemCount())
+        ))));
+
         menu.setIcon(2, 8, StaticIcon.create(MenuCommand.getRenderIcon(ReserveMessage.RESERVE_MENU_RESERVE_INFO.getMessage(
-                String.valueOf(ReservesConfig.RATE.get())
+                IceCreamPlugin.xcapi.getdisplay(BigDecimal.valueOf(ReservesSqlConnection.instance.getServerMoney())), String.valueOf(ReservesConfig.RATE.get())
         ))));
 
         StaticIcon submitIcon = StaticIcon.create(MenuCommand.getRenderIcon(ReserveMessage.RESERVE_MENU_SUBMIT.getMessage()));
